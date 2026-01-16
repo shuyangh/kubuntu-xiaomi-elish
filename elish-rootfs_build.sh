@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION="25.04"
+VERSION="25.10"
 
 cd $2
 
@@ -10,6 +10,15 @@ mount -o loop rootfs.img rootdir
 
 wget https://cdimage.ubuntu.com/ubuntu-base/releases/$VERSION/release/ubuntu-base-$VERSION-base-arm64.tar.gz
 tar xzvf ubuntu-base-$VERSION-base-arm64.tar.gz -C rootdir
+
+echo "deb http://ports.ubuntu.com/ubuntu-ports questing main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports questing main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports questing-updates main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports questing-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports questing-security main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports questing-security main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports questing-backports main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports questing-backports main restricted universe multiverse" | tee rootdir/etc/apt/sources.list
 
 mkdir -p rootdir/data/local/tmp
 mount --bind /dev rootdir/dev
@@ -34,7 +43,13 @@ echo "#!/bin/bash
 exit 0" | tee rootdir/var/lib/dpkg/info/python3-defer.postinst
 chroot rootdir dpkg --configure python3-defer
 
-chroot rootdir apt install -y bash-completion sudo ssh nano rmtfs qrtr-tools u-boot-tools- cloud-init- wireless-regdb- libreoffice*- transmission*- remmina*- $1
+chroot rootdir apt install -y bash-completion sudo ssh nano rmtfs qrtr-tools u-boot-tools- cloud-init- wireless-regdb- kubuntu-desktop plasma-workspace-wayland sddm $1
+
+mkdir -p rootdir/etc/sddm.conf.d
+echo "[General]
+DisplayServer=wayland
+Session=plasma" | tee rootdir/etc/sddm.conf.d/00-session.conf
+chroot rootdir systemctl enable sddm
 
 echo "[Daemon]
 DeviceScale=2" | tee rootdir/etc/plymouth/plymouthd.conf
