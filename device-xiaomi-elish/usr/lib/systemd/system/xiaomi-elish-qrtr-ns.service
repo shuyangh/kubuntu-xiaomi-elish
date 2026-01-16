@@ -1,0 +1,13 @@
+[Unit]
+Description=Qualcomm QRTR Name Service (Xiaomi Mi Pad 5 Pro)
+After=systemd-udev-settle.service
+Wants=systemd-udev-settle.service
+ConditionPathExists=/usr/bin/qrtr-ns
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/qrtr-ns
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
