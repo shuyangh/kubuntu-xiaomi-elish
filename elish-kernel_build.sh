@@ -1,6 +1,19 @@
 cd $1
 kernel_branch="${2:-v6.17}"
-https://gitlab.postmarketos.org/soc/qualcomm-sm8250/linux.git --depth 1 linux --branch "${kernel_branch}"
+kernel_source="${3:-}"
+if [ -n "${kernel_source}" ]; then
+  if [ "${kernel_source#/}" = "${kernel_source}" ]; then
+    kernel_source="$1/${kernel_source}"
+  fi
+  if [ ! -d "${kernel_source}" ]; then
+    echo "Missing kernel source directory: ${kernel_source}" >&2
+    exit 1
+  fi
+  rm -rf linux
+  cp -a "${kernel_source}" linux
+else
+  git clone https://gitlab.postmarketos.org/soc/qualcomm-sm8250/linux.git --depth 1 linux --branch "${kernel_branch}"
+fi
 cd linux
 config_source="$1/config-postmarketos-qcom-sm8250.aarch64"
 if [ ! -f "${config_source}" ]; then
