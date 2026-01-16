@@ -1,17 +1,15 @@
-# Xiaomi Mi Pad 5 Pro firmware blobs
+# Xiaomi Mi Pad 5 Pro (elish) firmware notes
 
-This package ships proprietary firmware blobs required for Xiaomi Mi Pad 5 Pro (xiaomi-elish),
-including Qualcomm DSP, Adreno, Wi-Fi (ath11k), Cirrus audio DSP, and touchscreen firmware.
+This firmware bundle is assembled from the Xiaomi elish firmware collection and
+linux-firmware. It includes DSP, GPU, audio, touchscreen, and Wi-Fi firmware
+required by postmarketOS and downstream kernels.
 
-## Sources
+## Licensing
 
-* postmarketOS packaging: `device/community/firmware-xiaomi-elish`.
-* linux-firmware: ath11k and QCA Bluetooth/ANC blobs.
+Firmware blobs remain under their respective proprietary licenses. Review the
+vendor notice files shipped alongside the blobs:
 
-## License
+* `/lib/firmware/qcom/NOTICE.txt`
+* `/lib/firmware/qca/NOTICE.txt`
 
-The firmware blobs are redistributed under their respective proprietary licenses and notices.
-See the accompanying NOTICE files shipped with the firmware (for example under
-`/lib/firmware/qcom/NOTICE.txt` and `/lib/firmware/ath11k/**/Notice.txt`).
-
-Do not remove or modify the notices unless upstream changes the licensing terms.
+Additional vendor firmware may include its own notices within subdirectories.

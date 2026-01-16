@@ -1,0 +1,14 @@
+[Unit]
+Description=Hexagon RPC daemon (SDSP) for Xiaomi Mi Pad 5 Pro
+After=xiaomi-elish-qrtr-ns.service
+Requires=xiaomi-elish-qrtr-ns.service
+ConditionPathExists=/usr/sbin/hexagonrpcd
+
+[Service]
+Type=simple
+EnvironmentFile=-/usr/share/hexagonrpcd/hexagonrpcd-sdsp.conf
+ExecStart=/usr/sbin/hexagonrpcd
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

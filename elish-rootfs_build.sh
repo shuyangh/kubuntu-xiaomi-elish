@@ -81,6 +81,12 @@ echo "PARTLABEL=linux / ext4 errors=remount-ro,x-systemd.growfs 0 1" | tee rootd
 
 echo 'ACTION=="add", SUBSYSTEM=="misc", KERNEL=="udmabuf", TAG+="uaccess"' | tee rootdir/etc/udev/rules.d/99-xiaomi-elish.rules
 
+# Enable device-specific services when their units are present.
+chroot rootdir systemctl enable \
+  xiaomi-elish-qrtr-ns.service \
+  xiaomi-elish-rmtfs.service \
+  xiaomi-elish-hexagonrpcd.service || true
+
 chroot rootdir glib-compile-schemas /usr/share/glib-2.0/schemas
 
 mkdir rootdir/var/lib/gdm

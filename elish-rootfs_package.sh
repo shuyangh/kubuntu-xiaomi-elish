@@ -25,6 +25,10 @@ chroot rootdir dpkg -i alsa-xiaomi-elish.deb
 chroot rootdir dpkg -i firmware-xiaomi-elish.deb
 chroot rootdir dpkg -i device-xiaomi-elish.deb
 chroot rootdir dpkg -i linux-xiaomi-elish.deb
+chroot rootdir systemctl enable \
+  xiaomi-elish-qrtr-ns.service \
+  xiaomi-elish-rmtfs.service \
+  xiaomi-elish-hexagonrpcd.service
 rm -rf $1/rootdir/*.deb
 
 umount rootdir/sys
