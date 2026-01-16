@@ -1,6 +1,6 @@
 cd $1
 kernel_branch="${2:-v6.17}"
-git clone https://gitlab.postmarketos.org/jianhua/sm8250-mainline.git --depth 1 linux --branch "${kernel_branch}"
+https://gitlab.postmarketos.org/soc/qualcomm-sm8250/linux.git --depth 1 linux --branch "${kernel_branch}"
 cd linux
 config_source="$1/config-postmarketos-qcom-sm8250.aarch64"
 if [ ! -f "${config_source}" ]; then
