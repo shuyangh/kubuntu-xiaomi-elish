@@ -1,0 +1,12 @@
+[Unit]
+Description=Qualcomm Hexagon RPC daemon (SDSP)
+After=qrtr-ns.service systemd-modules-load.service
+Requires=qrtr-ns.service
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/hexagonrpcd -c /usr/share/hexagonrpcd/hexagonrpcd-sdsp.conf
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

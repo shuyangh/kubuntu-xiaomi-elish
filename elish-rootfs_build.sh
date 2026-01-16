@@ -45,6 +45,26 @@ chroot rootdir dpkg --configure python3-defer
 
 chroot rootdir apt install -y bash-completion sudo ssh nano rmtfs qrtr-tools u-boot-tools- cloud-init- wireless-regdb- kubuntu-desktop plasma-workspace-wayland sddm $1
 
+if [ -d "$2/device-xiaomi-elish/usr" ]; then
+  cp -a "$2/device-xiaomi-elish/usr/." rootdir/usr/
+fi
+if [ -d "$2/device-xiaomi-elish/etc" ]; then
+  cp -a "$2/device-xiaomi-elish/etc/." rootdir/etc/
+fi
+
+chroot rootdir getent group rmtfs >/dev/null || chroot rootdir groupadd --system rmtfs
+chroot rootdir id -u rmtfs >/dev/null 2>&1 || chroot rootdir useradd --system --home /var/lib/rmtfs --shell /usr/sbin/nologin --gid rmtfs rmtfs
+chroot rootdir getent group hexagonrpcd >/dev/null || chroot rootdir groupadd --system hexagonrpcd
+chroot rootdir id -u hexagonrpcd >/dev/null 2>&1 || chroot rootdir useradd --system --home /var/lib/hexagonrpcd --shell /usr/sbin/nologin --gid hexagonrpcd hexagonrpcd
+chroot rootdir install -d -o rmtfs -g rmtfs /var/lib/rmtfs
+chroot rootdir install -d -o hexagonrpcd -g hexagonrpcd /var/lib/hexagonrpcd
+
+for svc in qrtr-ns rmtfs hexagonrpcd; do
+  if [ -f "rootdir/usr/lib/systemd/system/${svc}.service" ]; then
+    chroot rootdir systemctl enable "${svc}.service"
+  fi
+done
+
 mkdir -p rootdir/etc/sddm.conf.d
 echo "[General]
 DisplayServer=wayland

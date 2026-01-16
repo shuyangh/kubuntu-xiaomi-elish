@@ -1,0 +1,13 @@
+[Unit]
+Description=Qualcomm RMTFS service
+After=qrtr-ns.service systemd-modules-load.service
+Requires=qrtr-ns.service
+
+[Service]
+Type=simple
+EnvironmentFile=-/etc/rmtfs.conf
+ExecStart=/usr/sbin/rmtfs
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

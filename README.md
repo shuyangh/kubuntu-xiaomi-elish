@@ -39,6 +39,19 @@ Just go to the "Actions" tab, open the latest build and download files named **r
 <br>⚠️**USE "dd if="path to rootfs.img" of=/dev/block/by-name/linux"
 <br>  FLASHING USING FASTBOOT RESULTS IN BROKEN UBUNTU FILESYSTEM**
 - Flash (or **fastboot boot**) boot.img that you got from boot archive
-  
 
+## Firmware and service requirements
+This device requires Qualcomm DSP firmware (ADSP/CDSP/SLPI/venus) to be available in the
+initramfs. The list of blobs expected by the initramfs is tracked in
+`/usr/share/mkinitfs/files/30-dsp-firmware.files` inside the firmware package.
+
+When building a custom initramfs, make sure to include the following modules early so the
+DSPs and touchscreen can initialize (mirrors the postmarketOS modules-initfs list):
+`nt36523_ts`, `panel-novatek-nt36523`, `qcom_common`, `qcom_pil_info`, `qcom_q6v5`,
+`qcom_q6v5_pas`, and `spi-geni-qcom`.
+
+No special kernel cmdline parameters are required beyond your usual boot arguments. If you
+override the cmdline, keep it minimal (for example `quiet`) to avoid disabling QRTR/RMTFS
+services that rely on the platform drivers loading normally.
+  
 
