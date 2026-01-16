@@ -5,7 +5,7 @@ on:
 
 jobs:
   kernel:
-    runs-on: ubuntu-25.10-arm
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 20
     strategy:
             matrix:
@@ -38,7 +38,7 @@ jobs:
           path: ${{ github.workspace }}/boot_boe.img
 
   rootfs:
-    runs-on: ubuntu-25.10-arm
+    runs-on: ubuntu-24.04-arm
     timeout-minutes: 20
     strategy:
             matrix:
@@ -142,7 +142,7 @@ jobs:
           compression-level: 0
           
   cleaner:
-    runs-on: ubuntu-25.10-arm
+    runs-on: ubuntu-24.04-arm
     needs: rootfs-packager
     steps:
       - uses: geekyeggo/delete-artifact@v5
