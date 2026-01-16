@@ -1,8 +1,13 @@
 cd $1
-git clone https://gitlab.postmarketos.org/jianhua/sm8250-mainline.git --depth 1 linux --branch $2
+kernel_branch="${2:-v6.17}"
+git clone https://gitlab.postmarketos.org/jianhua/sm8250-mainline.git --depth 1 linux --branch "${kernel_branch}"
 cd linux
-wget https://gitlab.com/alghiffaryfa19/pkgbuilds/-/raw/dev/linux/sdm870/config-kupferlinux-qcom-sm8250.aarch64
-cp config-kupferlinux-qcom-sm8250.aarch64 .config
+config_source="$1/config-postmarketos-qcom-sm8250.aarch64"
+if [ ! -f "${config_source}" ]; then
+  echo "Missing kernel config: ${config_source}" >&2
+  exit 1
+fi
+cp "${config_source}" .config
 make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 _kernel_version="$(make kernelrelease -s)"
 
